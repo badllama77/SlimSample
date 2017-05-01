@@ -42,7 +42,7 @@ class ContactService
     {
         $contact = Contact::find($id);
         if (!$contact) {
-            throw new ContactNotFoundException('Contact with id ' . $args['id'] . ' not found');
+            throw new ContactNotFoundException('Contact with id ' . $id . ' not found');
         }
         return $contact;
     }
