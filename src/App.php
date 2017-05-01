@@ -18,6 +18,7 @@ class App
 
         $this->initLogging($container);
         $this->initDatabase($container);
+        $this->initRoutes();
 
         $this->setUpDatabaseManager();
     }
@@ -62,5 +63,16 @@ class App
 
             return $manager;
         };
+    }
+
+    private function initRoutes()
+    {
+        $this->app->group('/contacts', function () {
+            $this->post('', 'ESoft\SlimSample\Controller\ContactsController:createContact');
+            $this->put('/{id}', 'ESoft\SlimSample\Controller\ContactsController:updateContact');
+            $this->get('', 'ESoft\SlimSample\Controller\ContactsController:getContacts');
+            $this->get('/{id}', 'ESoft\SlimSample\Controller\ContactsController:getContact');
+            $this->delete('/{id}', 'ESoft\SlimSample\Controller\ContactsController:deleteContact');
+        });
     }
 }
