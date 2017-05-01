@@ -42,6 +42,24 @@ final class ContactsController
         return $response->withJson($result)->withStatus(201);
     }
 
+    public function updateContact($request, $response, $args)
+    {
+        $contactData = $request->getParsedBody();
+        $contactData['id'] = $args['id'];
+        $contact = Contact::find($args['id']);
+        if (!$contact) {
+            return $response
+            ->withJson(['message'=>'Contact with id ' . $args['id'] . ' not found'])
+            ->withStatus(404);
+        }
+        $this->validate($contactData);
+        $contact = $this->buildContact($contactData);
+        $result = $contact->toArray();
+        $result['location'] = "/contacts/" . $contact['id'];
+        $result['addresses'] = $contact->addresses->toArray();
+        $result['phoneNumbers'] = $contact->phoneNumbers->toArray();
+        return $response->withJson($result);
+    }
 
     public function deleteContact($request, $response, $args)
     {
@@ -61,6 +79,22 @@ final class ContactsController
         if (!$validator->validate()) {
             throw new InvalidContactException(json_encode($validator->getMessages()));
         }
+    }
+
+    private function updateOrCreateMany($class, $data)
+    {
+        $models=[];
+        foreach ($data as $item) {
+            if (array_key_exists('id', $item)) {
+                $model = $class::find($item['id']);
+                $model->update($item);
+            } else {
+                $model = new $class($item);
+            }
+
+            $models[] = $model;
+        }
+        return $models;
     }
 
     private function buildContact($contactData)
@@ -85,6 +119,8 @@ final class ContactsController
 
         $contact->fill($contactData);
         $contact->save();
+        $contact->phoneNumbers()->saveMany($this->updateOrCreateMany('ESoft\SlimSample\Model\PhoneNumber', $phoneData));
+        $contact->addresses()->saveMany($this->updateOrCreateMany('ESoft\SlimSample\Model\Address', $addressData));
         return $contact;
     }
 }
