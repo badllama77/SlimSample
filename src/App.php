@@ -2,6 +2,8 @@
 
 namespace ESoft\SlimSample;
 
+use ESoft\SlimSample\Controller\ContactsController;
+
 class App
 {
     protected $app;
@@ -19,6 +21,7 @@ class App
         $this->initLogging($container);
         $this->initHandlers($container);
         $this->initDatabase($container);
+        $this->initServices($container);
         $this->initRoutes();
 
         $this->setUpDatabaseManager();
@@ -28,6 +31,14 @@ class App
     public function get()
     {
         return $this->app;
+    }
+
+    private function initServices($container)
+    {
+        $container['ESoft\SlimSample\Controller\ContactsController'] = function ($c) {
+            $contactService = new ContactService();
+            return new ContactsController($contactService);
+        };
     }
 
     private function setUpDatabaseManager()
@@ -86,12 +97,14 @@ class App
             };
         };
 
-
-
         $container['errorHandler'] = function ($c) {
             return function ($request, $response, $exception) use ($c) {
                 if ($exception instanceof \ESoft\SlimSample\Exception\InvalidContactException) {
                     return $response->withJson(['message' => $exception->getMessage()], 400);
+                }
+
+                if ($exception instanceof \ESoft\SlimSample\Exception\ContactNotException) {
+                    return $response->withJson(['message' => $exception->getMessage()], 404);
                 }
 
                 $c->logger->critical($exception);
