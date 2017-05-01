@@ -1,8 +1,5 @@
 # Slim Sample Application
 
-You need set your environment variables to define your database parameters or rename .env.example file in project to .env and change the below to your local configuration.
-
-
 Install package dependencies:
 
 ```
