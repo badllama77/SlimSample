@@ -17,6 +17,7 @@ class App
         $container = $this->app->getContainer();
 
         $this->initLogging($container);
+        $this->initHandlers($container);
         $this->initDatabase($container);
         $this->initRoutes();
 
@@ -62,6 +63,29 @@ class App
             $manager->addConnection($config);
 
             return $manager;
+        };
+    }
+
+    private function initHandlers(\Slim\Container $container)
+    {
+        $container['notFoundHandler'] = function ($container) {
+            return function ($request, $response) use ($container) {
+                 $r = $response
+                    ->withJson(['message'=>'Endpoint not found'])
+                    ->withStatus(404);
+                return $r;
+            };
+        };
+
+
+
+        $container['errorHandler'] = function ($c) {
+            return function ($request, $response, $exception) use ($c) {
+                $c->logger->critical($exception);
+                return $response->withJson([
+                    'message' => "Whoops there seems to be a problem in the snippets storeroom...We are working a fix."
+                ], 500);
+            };
         };
     }
 
