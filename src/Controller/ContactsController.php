@@ -23,6 +23,20 @@ final class ContactsController
         return $response->withJson($result->toArray());
     }
 
+    public function createContact($request, $response, $args)
+    {
+        $contactData = $request->getParsedBody();
+        if (!$contactData) {
+            throw new \UnexpectedValueException('The contact data is required');
+        }
+        $contact = $this->buildContact($contactData);
+        $result = $contact->toArray();
+        $result['location'] = "/contacts/" . $contact['id'];
+        $result['addresses'] = $contact->addresses->toArray();
+        $result['phoneNumbers'] = $contact->phoneNumbers->toArray();
+        return $response->withJson($result)->withStatus(201);
+    }
+
     public function deleteContact($request, $response, $args)
     {
         $contact = Contact::find($args['id']);
@@ -33,5 +47,30 @@ final class ContactsController
         }
         $contact->delete();
         return $response->withStatus(204);
+    }
+
+    private function buildContact($contactData)
+    {
+        $phoneData = [];
+        $addressData = [];
+
+        if (array_key_exists('addresses', $contactData)) {
+            $addressData = $contactData['addresses'];
+            unset($contactData['addresses']);
+        }
+
+        if (array_key_exists('phone_numbers', $contactData)) {
+            $phoneData = $contactData['phone_numbers'];
+            unset($contactData['phone_numbers']);
+        }
+
+        $contact = new Contact();
+        if (array_key_exists('id', $contactData)) {
+            $contact = Contact::find($contactData['id']);
+        }
+
+        $contact->fill($contactData);
+        $contact->save();
+        return $contact;
     }
 }
