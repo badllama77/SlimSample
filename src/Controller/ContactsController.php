@@ -27,12 +27,7 @@ final class ContactsController
 
     public function getContact($request, $response, $args)
     {
-        $result = Contact::with('phoneNumbers', 'addresses')->find($args['id']);
-        if (!$result) {
-            return $response
-            ->withJson(['message'=>'Contact with id ' . $args['id'] . ' not found'])
-            ->withStatus(404);
-        }
+        $result = $this->contactService->findContact($args['id']);
         return $response->withJson($result->toArray());
     }
 
