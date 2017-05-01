@@ -53,4 +53,56 @@ class ApiContactCreateTest extends ApiBaseTest
         $this->assertSame($response->getStatusCode(), 201);
         $this->assertContains('Daffy', $result);
     }
+
+    /**
+     * test return 400 when email is invalid
+     * @return void
+     */
+    public function testCreateContactReturnsStatusCode400WithBadEmail()
+    {
+        $contactData = [
+            'first_name' => 'Foghorn',
+            'last_name' => 'Leghorn',
+            'title' => '',
+            'email' => 'fleghornacme.com',
+        ];
+        $response = $this->post('/contacts', $contactData);
+        $result = (string) $response->getBody();
+        $this->assertSame($response->getStatusCode(), 400);
+        $this->assertContains('must be valid email', $result);
+    }
+
+    /**
+     * test returns 400 when first name is missing
+     * @return void
+     */
+    public function testCreateContactReturnsStatusCode400WithMissingFirstName()
+    {
+        $contactData = [
+            'last_name' => 'Pig',
+            'title' => '',
+            'email' => 'ppig@acme.com',
+        ];
+        $response = $this->post('/contacts', $contactData);
+        $result = (string) $response->getBody();
+        $this->assertSame($response->getStatusCode(), 400);
+        $this->assertContains('must not be empty', $result);
+    }
+
+    /**
+     * test returns 400 when last name is missing
+     * @return void 
+     */
+    public function testCreateContactReturnsStatusCode400WithMissingLastName()
+    {
+        $contactData = [
+            'first_name' => 'Pepe',
+            'title' => '',
+            'email' => 'plepew@acme.com',
+        ];
+        $response = $this->post('/contacts', $contactData);
+        $result = (string) $response->getBody();
+        $this->assertSame($response->getStatusCode(), 400);
+        $this->assertContains('must not be empty', $result);
+    }
 }
