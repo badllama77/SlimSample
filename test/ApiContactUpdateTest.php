@@ -16,11 +16,11 @@ class ApiContactUpdateTest extends ApiBaseTest
             'title' => "Duck A L'Orange",
             'email' => 'dduck@acme.com',
             'addresses' => $this->contact->addresses->toArray(),
-            'phoneNumbers' =>[]
+            'phone_numbers' =>[]
         ];
         foreach ($this->contact->phoneNumbers->toArray() as $phone) {
             $phone['number'] ='555.558.5321';
-            $contactData['phoneNumbers'][] =$phone;
+            $contactData['phone_numbers'][] =$phone;
         }
         $response = $this->put('/contacts/' . $this->contact->id, $contactData);
         $result = (string) $response->getBody();
