@@ -5,7 +5,7 @@ namespace ESoft\SlimSample;
 use ESoft\SlimSample\Validator\PhoneNumberValidator;
 use PHPUnit\Framework\TestCase;
 
-class ContactValidatorTest extends TestCase
+class PhoneNumberValidatorTest extends TestCase
 {
     public function testReturnsTrueWhenPhoneNumberIsValid()
     {
