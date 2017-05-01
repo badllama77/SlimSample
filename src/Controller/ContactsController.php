@@ -2,7 +2,11 @@
 
 namespace ESoft\SlimSample\Controller;
 
+use ESoft\SlimSample\Exception\InvalidContactException;
+use ESoft\SlimSample\Validator\ContactValidator;
 use ESoft\SlimSample\Model\Contact;
+use ESoft\SlimSample\Model\PhoneNumber;
+use ESoft\SlimSample\Model\Address;
 
 final class ContactsController
 {
@@ -29,6 +33,7 @@ final class ContactsController
         if (!$contactData) {
             throw new \UnexpectedValueException('The contact data is required');
         }
+        $this->validate($contactData);
         $contact = $this->buildContact($contactData);
         $result = $contact->toArray();
         $result['location'] = "/contacts/" . $contact['id'];
@@ -36,6 +41,7 @@ final class ContactsController
         $result['phoneNumbers'] = $contact->phoneNumbers->toArray();
         return $response->withJson($result)->withStatus(201);
     }
+
 
     public function deleteContact($request, $response, $args)
     {
@@ -47,6 +53,14 @@ final class ContactsController
         }
         $contact->delete();
         return $response->withStatus(204);
+    }
+
+    private function validate($data)
+    {
+        $validator = new ContactValidator($data);
+        if (!$validator->validate()) {
+            throw new InvalidContactException(json_encode($validator->getMessages()));
+        }
     }
 
     private function buildContact($contactData)
