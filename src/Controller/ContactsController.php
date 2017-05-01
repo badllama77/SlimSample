@@ -22,4 +22,16 @@ final class ContactsController
         }
         return $response->withJson($result->toArray());
     }
+
+    public function deleteContact($request, $response, $args)
+    {
+        $contact = Contact::find($args['id']);
+        if (!$contact) {
+            return $response
+            ->withJson(['message'=>'Contact with id ' . $args['id'] . ' not found'])
+            ->withStatus(404);
+        }
+        $contact->delete();
+        return $response->withStatus(204);
+    }
 }
