@@ -1,0 +1,84 @@
+{
+	"variables": [],
+	"info": {
+		"name": "SlimSample",
+		"_postman_id": "e996c23d-22d8-6d2f-29dd-5c7f9faa96d6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8888/contacts/1",
+			"request": {
+				"url": "localhost:8888/contacts/1",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8888/contacts/6",
+			"request": {
+				"url": "localhost:8888/contacts/6",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8888/contacts/1",
+			"request": {
+				"url": "localhost:8888/contacts/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"first_name\": \"Daffy\",\n        \"last_name\": \"Duck\",\n        \"title\": \"Hasenpfeffer\",\n        \"email\": \"dduck@acme.com\",\n        \"updated_at\": \"2017-05-01 00:00:00\",\n        \"created_at\": \"2017-05-01 00:00:00\",\n        \"phone_numbers\": [\n            {\n                \"id\": 19,\n                \"phone_type\": \"home2\",\n                \"number\": \"555.558.1234\",\n                \"contact_id\": 2\n                \n             \n            },\n            {\n                \"id\": 20,\n                \"phone_type\": \"work\",\n                \"number\": \"555.558.1235\",\n                \"contact_id\": 2\n               \n            },\n            {\n                \"id\": 21,\n                \"phone_type\": \"cell\",\n                \"number\": \"555.555.1236\",\n                \"contact_id\": 2\n            }\n        ],\n        \"addresses\": [\n            {\n                \"id\": 7,\n                \"address_type\": \"home2\",\n                \"street_line1\": \"2424 Mockingbird lane\",\n                \"street_line2\": \"APT 221\",\n                \"city\": \"Walla Walla\",\n                \"state\": \"WA\",\n                \"zipcode\": \"99362\",\n                \"contact_id\": 2,\n                \"updated_at\": \"2017-05-01 00:00:00\",\n                \"created_at\": \"2017-05-01 00:00:00\"\n            }\n        ]\n    }\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8888/contacts",
+			"request": {
+				"url": "localhost:8888/contacts",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8888/contacts",
+			"request": {
+				"url": "localhost:8888/contacts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"first_name\":\"Bugs\",\"last_name\":\"Bunny\",\"title\":\"Hasenpfeffer\",\"email\":\"bugs@acme.com\",\"addresses\":[{\"address_type\":\"home\",\"city\":\"Walla Walla\",\"state\":\"WA\",\"zipcode\":\"99362\",\"street_line1\":\"1313 Mockingbird lane\",\"street_line2\":\"APT 221\"}],\"phone_numbers\":[{\"phone_type\":\"home\",\"number\":\"555.555.1234\"},{\"phone_type\":\"work\",\"number\":\"555.555.1235\"},{\"phone_type\":\"cell\",\"number\":\"555.555.1236\"}]}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
