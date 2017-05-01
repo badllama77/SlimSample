@@ -1,0 +1,27 @@
+{
+    "name": "ESoft/SlimSample",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.8",
+        "illuminate/database": "^5.4",
+        "vlucas/phpdotenv": "^2.4",
+        "monolog/monolog": "^1.22",
+        "respect/validation": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "mikey179/vfsStream": "^1.6"
+    },
+        "autoload": {
+            "psr-4": {
+                "ESoft\\SlimSample\\" : ["src", "test"]
+            }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eric Myers",
+            "email": "badllama77@gmail.com"
+        }
+    ]
+}
