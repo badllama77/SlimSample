@@ -97,11 +97,14 @@ class ContactSeviceTest extends TestCase
         $this->assertInternalType('array', $result);
         $this->assertContains('Bunny', $result);
         $this->assertArrayHasKey('location', $result);
+        $this->assertArrayHasKey('addresses', $result);
+        $this->assertArrayHasKey('phone_numbers', $result);
     }
 
     public function testFindReturnsContactWithExistingId()
     {
         $contact = $this->service->findContact($this->contact->id);
+        $this->contact->load('phoneNumbers', 'addresses');
         $existing = $this->contact->toArray();
         $retrieved = $contact->toArray();
         ksort($existing);

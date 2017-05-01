@@ -57,10 +57,9 @@ class ContactService
 
     public function marshallContact($contact)
     {
+        $contact->load('addresses', 'phoneNumbers');
         $result = $contact->toArray();
         $result['location'] = "/contacts/" . $contact['id'];
-        $result['addresses'] = $contact->addresses->toArray();
-        $result['phoneNumbers'] = $contact->phoneNumbers->toArray();
         return $result;
     }
 
