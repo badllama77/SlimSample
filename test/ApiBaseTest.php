@@ -79,4 +79,22 @@ class ApiBaseTest extends TestCase
 
         return $this->app->run(true);
     }
+
+    /**
+     * Mock environment for put
+     * @param  string $url url to include in mock request
+     * @param  string $body body data for request
+     * @return response app response to mocked request
+     */
+    protected function put($url, $body)
+    {
+        $env = Environment::mock([
+            'REQUEST_METHOD' => 'PUT',
+            'REQUEST_URI'    => $url,
+        ]);
+        $req = Request::createFromEnvironment($env)->withParsedBody($body);
+        $this->app->getContainer()['request'] = $req;
+
+        return $this->app->run(true);
+    }
 }
