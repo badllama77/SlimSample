@@ -11,4 +11,15 @@ final class ContactsController
         $result = Contact::with('phoneNumbers', 'addresses')->get();
         return $response->withJson($result->toArray());
     }
+
+    public function getContact($request, $response, $args)
+    {
+        $result = Contact::with('phoneNumbers', 'addresses')->find($args['id']);
+        if (!$contact) {
+            return $response
+            ->withJson(['message'=>'Contact with id ' . $args['id'] . ' not found'])
+            ->withStatus(404);
+        }
+        return $response->withJson($result->toArray());
+    }
 }
