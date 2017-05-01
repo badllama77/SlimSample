@@ -17,6 +17,7 @@ class App
         $container = $this->app->getContainer();
 
         $this->initLogging($container);
+        $this->initDatabase($container);
 
         $this->setUpDatabaseManager();
     }
