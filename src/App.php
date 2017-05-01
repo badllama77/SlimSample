@@ -90,6 +90,10 @@ class App
 
         $container['errorHandler'] = function ($c) {
             return function ($request, $response, $exception) use ($c) {
+                if ($exception instanceof \ESoft\SlimSample\Exception\InvalidContactException) {
+                    return $response->withJson(['message' => $exception->getMessage()], 400);
+                }
+
                 $c->logger->critical($exception);
                 return $response->withJson([
                     'message' => "Whoops there seems to be a problem in the snippets storeroom...We are working a fix."
