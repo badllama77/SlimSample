@@ -22,6 +22,7 @@ class App
         $this->initRoutes();
 
         $this->setUpDatabaseManager();
+        $this->setUpDatabaseSchema();
     }
 
     public function get()
@@ -34,6 +35,14 @@ class App
         $database = $this->app->getContainer()->get('db');
         $database->setAsGlobal();
         $database->bootEloquent();
+    }
+
+    private function setUpDatabaseSchema()
+    {
+        try {
+            Schema::createTables();
+        } catch (\Exception $e) {
+        }
     }
 
     private function initLogging(\Slim\Container $container)
